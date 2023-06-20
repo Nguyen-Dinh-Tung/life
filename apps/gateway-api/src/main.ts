@@ -6,14 +6,9 @@ import { ConfigService } from '@nestjs/config';
 async function bootstrap() {
   const app = await NestFactory.create(GatewayApiModule);
   const configService = app.get(ConfigService);
-  app.connectMicroservice<MicroserviceOptions>({
-    transport: Transport.TCP,
-    options: {
-      host: configService.get<string>('MAIN_HOST'),
-      port: configService.get<number>('GATEWAY_PORT'),
-    },
-  });
-  await app.startAllMicroservices();
+  app.enableCors();
+  app.setGlobalPrefix('api');
+  await app.listen(configService.get<number>('GATEWAY_PORT'));
   console.log(
     `Server gateway connect port : ${configService.get<number>(
       'GATEWAY_PORT',
