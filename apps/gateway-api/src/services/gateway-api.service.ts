@@ -13,10 +13,12 @@ export class GatewayApiService {
   getHello(): string {
     return 'Hello World!';
   }
-  gateBase(data: GateBaseDto) {
-    console.log(this.getService(data.service));
+  async gateBase(data: GateBaseDto) {
+    return await this.getService(data.service)
+      [data.method]({ cmd: data.cmd }, data.body)
+      .toPromise();
   }
-  getService(service: SERVICE_ENUM) {
+  getService(service: SERVICE_ENUM): ClientProxy {
     const services = {
       acounts: this.acountsClientProxy,
     };
