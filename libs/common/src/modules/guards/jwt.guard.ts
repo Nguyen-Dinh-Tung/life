@@ -27,13 +27,26 @@ export class AuthGuards implements CanActivate {
       context.switchToRpc().getContext<TcpContext>().getPattern(),
     );
     const req = context.switchToHttp().getRequest();
+    console.log(
+      MESSAGE_PATTERN[req['service']],
+      `MESSAGE_PATTERN[req['service']]`,
+    );
+
     if (MESSAGE_PATTERN[req['service']][pattern['cmd']]['isPublic'])
       return true;
     try {
       const data = await this.jwtService.verifyAsync(req['jwt']);
-      console.log(data, 'data');
+      const idAcount = data['id'];
+      const res = await this.acountClientProxy
+        .send(
+          { cmd: MESSAGE_PATTERN.acounts.roles },
+          { id: idAcount, feature: req.feature, service: req.service },
+        )
+        .toPromise();
+      if (!req) throw new UnauthorizedException();
+      if (!req.isActive) throw new UnauthorizedException();
     } catch (e) {
-      if (e) throw new UnauthorizedException();
+      if (e) throw new UnauthorizedException(e.message);
     }
     return true;
   }

@@ -11,5 +11,11 @@ export const MESSAGE_PATTERN = {
       isPublic: true,
     },
   },
+  acounts: {
+    roles: {
+      value: 'roles',
+      isPubLic: false,
+    },
+  },
 };
 export const EVENTS_PATTERN = {};

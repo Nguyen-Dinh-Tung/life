@@ -8,7 +8,7 @@ import { MESSAGE_PATTERN } from '@app/common';
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
-  @MessagePattern({ cmd: MESSAGE_PATTERN.auth.login.value })
+  @MessagePattern({ cmd: MESSAGE_PATTERN.acounts.roles.value })
   @UseGuards(AuthGuards)
   async login(data: LoginDto) {
     return await this.authService.login(data);
