@@ -1,4 +1,8 @@
-import { CLIENT_APP_NAME, SERVICE_INFO } from '@app/common/constants';
+import {
+  CLIENT_APP_NAME,
+  MESSAGE_PATTERN,
+  SERVICE_INFO,
+} from '@app/common/constants';
 import { createClientProxyFactory } from './../../funcs/create-client-proxy';
 import {
   BadRequestException,
@@ -19,11 +23,15 @@ export class AuthGuards implements CanActivate {
     private readonly jwtService: JwtService,
   ) {}
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const pattern = context.switchToRpc().getContext<TcpContext>().getPattern();
+    const pattern = JSON.parse(
+      context.switchToRpc().getContext<TcpContext>().getPattern(),
+    );
     const req = context.switchToHttp().getRequest();
-
+    if (MESSAGE_PATTERN[req['service']][pattern['cmd']]['isPublic'])
+      return true;
     try {
       const data = await this.jwtService.verifyAsync(req['jwt']);
+      console.log(data, 'data');
     } catch (e) {
       if (e) throw new UnauthorizedException();
     }

@@ -1,7 +1,13 @@
 export const MESSAGE_PATTERN = {
-  GATEWAY: {
-    BASE_GATE: {
-      VALUE: 'BASE-gate',
+  gateway: {
+    base_gate: {
+      VALUE: 'base_gate',
+      isPublic: true,
+    },
+  },
+  auth: {
+    login: {
+      value: 'login',
       isPublic: true,
     },
   },
