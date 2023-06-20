@@ -9,6 +9,8 @@ export class GatewayApiService {
   constructor(
     @Inject(CLIENT_APP_NAME.ACOUNTS)
     private readonly acountsClientProxy: ClientProxy,
+    @Inject(CLIENT_APP_NAME.AUTH_APP)
+    private readonly authClientProxy: ClientProxy,
   ) {}
   getHello(): string {
     return 'Hello World!';
@@ -21,6 +23,7 @@ export class GatewayApiService {
   getService(service: SERVICE_ENUM): ClientProxy {
     const services = {
       acounts: this.acountsClientProxy,
+      auth: this.authClientProxy,
     };
     return services[service];
   }

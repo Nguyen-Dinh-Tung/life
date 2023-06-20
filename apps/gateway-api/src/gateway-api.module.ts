@@ -8,7 +8,6 @@ import {
   createClientProxyFactory,
 } from '@app/common';
 import { CLIENT_APP_NAME } from '@app/common/constants/client-app-name.constant';
-import { ClientProxyFactory, Transport } from '@nestjs/microservices';
 
 @Module({
   imports: [
@@ -22,6 +21,11 @@ import { ClientProxyFactory, Transport } from '@nestjs/microservices';
       CLIENT_APP_NAME.ACOUNTS,
       SERVICE_INFO.ACOUNTS.PORT,
       SERVICE_INFO.ACOUNTS.HOST,
+    ),
+    createClientProxyFactory(
+      CLIENT_APP_NAME.AUTH_APP,
+      SERVICE_INFO.AUTH.PORT,
+      SERVICE_INFO.AUTH.HOST,
     ),
   ],
 })
